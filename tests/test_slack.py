@@ -17,7 +17,7 @@ def test_hello():
 
 def test_send_channel_message():
     payload = model.SendRequest(
-        token="xoxb-2955790037476-2938898660455-IlMmquNQxjOUAXrU9LmSeEsx",
+        token="<Your oAuth Token>",
         message="pytest 1234!!"
     )
     resp = client.post(url=f'{slack_base}{route.SLACK_CHANNEL_SEND}', data=payload.json())
