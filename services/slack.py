@@ -18,6 +18,4 @@ def send_message(send_request: model.SendRequest):
 
 
 if __name__ == '__main__':
-    req = model.SendRequest(token='xoxb-2955790037476-2938898660455-rz0HmxrR4NSOFEYJTCm9w1fJ', message='테스트 1010')
-    res = send_message(req)
-    print(res)
+    pass
