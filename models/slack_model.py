@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 
 
@@ -7,4 +8,5 @@ class SendRequest(BaseModel):
 
 
 class SendResponse(BaseModel):
-    result_code: bool
+    success: bool
+    error_message: Optional[str] = None

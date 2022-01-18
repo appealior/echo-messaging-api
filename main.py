@@ -1,4 +1,3 @@
-from typing import Optional
 from fastapi import FastAPI
 from services import kakao, slack, telegram
 from domain import route
@@ -12,17 +11,18 @@ kakao_base = f'{base_url}{route.KAKAO_BASE}'
 app = FastAPI()
 
 
-@app.get("/")
+@app.get(base_url)
 def read_root():
     return {"Hello": "World"}
 
 
-@app.post(f'{slack_base}{route.SLACK_CHANNEL_SEND}')
-async def send_slack_message(send_request: slack_model.SendRequest, response_model=slack_model.SendResponse):
+@app.post(f'{slack_base}{route.SLACK_CHANNEL_SEND}',
+          response_model=slack_model.SendResponse,
+          summary="Slack 채널 메시지 전송")
+async def send_slack_message(send_request: slack_model.SendRequest):
     """
     Slack 채널 메시지 전송
     :param send_request: 요청 모델
-    :param response_model: 응답 모델
     :return:
     """
     response = slack.send_message(send_request)

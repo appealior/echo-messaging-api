@@ -12,10 +12,6 @@ def send_message(send_request: model.SendRequest):
                          data={"channel": channel, "text": text})
 
     if resp.status_code == 200:
-        return model.SendResponse(result_code=True)
+        return model.SendResponse(success=True, error_message="")
     else:
-        return model.SendResponse(result_code=False)
-
-
-if __name__ == '__main__':
-    pass
+        return model.SendResponse(success=False, error_message=resp.text)
