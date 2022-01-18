@@ -1,7 +1,13 @@
 from typing import Optional
 from fastapi import FastAPI
 from services import kakao, slack, telegram
+from domain import route
+from models import kakao_model, slack_model
 import uvicorn
+
+base_url = route.BASE_URL
+slack_base = f'{base_url}{route.SLACK_BASE}'
+kakao_base = f'{base_url}{route.KAKAO_BASE}'
 
 app = FastAPI()
 
@@ -11,15 +17,17 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.get('/slack/send/{message}')
-def send_slack_message(message: str):
+@app.post(f'{slack_base}{route.SLACK_CHANNEL_SEND}')
+async def send_slack_message(send_request: slack_model.SendRequest, response_model=slack_model.SendResponse):
     """
-    Slack 기본 메시지 전송
-    :param message: 전송할 메시지
-    :return: Response
+    Slack 채널 메시지 전송
+    :param send_request: 요청 모델
+    :param response_model: 응답 모델
+    :return:
     """
-    res = slack.send_message(message=message)
-    return res
+    response = slack.send_message(send_request)
+    return response
+
 
 @app.get('/kakao/init/')
 def init_kakao(job: str, message: str):
@@ -31,6 +39,7 @@ def init_kakao(job: str, message: str):
     """
     kakao.init_kakao(job, message)
 
+
 @app.get('/kakao/login/')
 def login_kakao(code: str):
     """
@@ -38,6 +47,7 @@ def login_kakao(code: str):
     :param code: OAuth 인증키를 받아오는 parameter
     """
     kakao.login_kakao(code)
+
 
 @app.get('/kakao/selfMsg/{message}')
 def send_kakao_self_message(message: str):
@@ -47,6 +57,7 @@ def send_kakao_self_message(message: str):
     """
     res = kakao.send_kakao_self_message(message)
     return res
+
 
 @app.get('/kakao/msg/{message}')
 def send_kakao_message(message: str):
@@ -58,5 +69,7 @@ def send_kakao_message(message: str):
     res = kakao.send_kakao_message(message)
     return res
 
+
 if __name__ == "__main__":
+    base_url = route.BASE_URL
     uvicorn.run("main:app", host='127.0.0.1', port=8000, reload=True)
