@@ -10,8 +10,8 @@ NEXT_JOB = ''
 ACCESS_TOKEN = ''
 KAKAO_HEADER = {}
 
-def init_kakao(job: str, message: str):
 
+def init_kakao(job: str, message: str):
     url = f'https://kauth.kakao.com/oauth/authorize?client_id={APP_KEY}&redirect_uri={REDIRECT_HOST}&response_type=code'
     global INIT_MESSAGE
     INIT_MESSAGE = message
@@ -20,6 +20,7 @@ def init_kakao(job: str, message: str):
     webbrowser.open(url)
     # rs = requests.get(url)
     # print(rs.url)
+
 
 def login_kakao(code: str):
     data = {
@@ -58,6 +59,7 @@ def send_kakao_self_message(message: str):
     }
     response = requests.post('https://kapi.kakao.com/v2/api/talk/memo/default/send', headers=KAKAO_HEADER, data=data)
     return {"result": response.status_code, "kakao_resultCode": response.json()['result_code'], "sendMessage": message}
+
 
 def send_kakao_message(message: str):
     response = requests.get('https://kapi.kakao.com/v1/api/talk/friends', headers=KAKAO_HEADER)
