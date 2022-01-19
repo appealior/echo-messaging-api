@@ -1,4 +1,4 @@
-from models import slack_model as model
+from app.models import slack_model as model
 import requests
 
 

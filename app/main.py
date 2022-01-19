@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from services import kakao, slack, telegram
-from domain import route
-from models import kakao_model, slack_model
+from app.services import slack, kakao
+from app.domain import route
+from app.models import slack_model
 import uvicorn
 
 base_url = route.BASE_URL
